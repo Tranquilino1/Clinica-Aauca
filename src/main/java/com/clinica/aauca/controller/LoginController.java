@@ -66,6 +66,9 @@ public class LoginController {
             try {
                 System.out.println("Login exitoso. Redirigiendo al Dashboard...");
                 
+                // Almacenar usuario en sesión global
+                com.clinica.aauca.util.SessionManager.setCurrentUser(user);
+                
                 // Cargar el Dashboard
                 FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/clinica/aauca/view/dashboard.fxml"));
                 javafx.scene.Parent root = loader.load();

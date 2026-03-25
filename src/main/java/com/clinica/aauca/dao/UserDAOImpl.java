@@ -60,4 +60,25 @@ public class UserDAOImpl implements UserDAO {
         }
         return Optional.empty();
     }
+
+    @Override
+    public java.util.List<User> findByRole(String role) {
+        java.util.List<User> list = new java.util.ArrayList<>();
+        String sql = "SELECT * FROM usuarios WHERE rol = ?";
+        try (java.sql.Connection conn = com.clinica.aauca.util.DatabaseConnector.getConnection();
+             java.sql.PreparedStatement pstmt = conn.prepareStatement(sql)) {
+            pstmt.setString(1, role);
+            java.sql.ResultSet rs = pstmt.executeQuery();
+            while (rs.next()) {
+                list.add(new User(
+                    rs.getInt("id"), rs.getString("username"), 
+                    rs.getString("password"), rs.getString("nombre_completo"), 
+                    rs.getString("rol")
+                ));
+            }
+        } catch (java.sql.SQLException e) {
+            e.printStackTrace();
+        }
+        return list;
+    }
 }

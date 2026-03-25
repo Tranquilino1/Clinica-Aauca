@@ -13,29 +13,42 @@
     
     <children>
         <!-- Buscador de paciente para cargar expediente -->
-        <VBox prefWidth="350.0" spacing="15.0" styleClass="sidebar-inner">
+        <VBox prefWidth="320.0" spacing="15.0" styleClass="sidebar-inner">
             <Label text="EXPEDIENTES" styleClass="module-title" />
             <TextField fx:id="txtSearchPatient" promptText="Buscar paciente por DIP..." />
             <ListView fx:id="listPatients" VBox.vgrow="ALWAYS" />
+        </VBox>
+
+        <!-- Historial de Visitas -->
+        <VBox prefWidth="250.0" spacing="10.0" styleClass="sidebar-inner">
+            <Label text="CONSULTAS PREVIAS" style="-fx-font-weight: bold; -fx-text-fill: #34495e;" />
+            <ListView fx:id="listHistoryEntries" VBox.vgrow="ALWAYS" />
         </VBox>
         
         <!-- Editor de Consulta Médica -->
         <VBox HBox.hgrow="ALWAYS" spacing="15.0" styleClass="card-content">
             <children>
-                <Label fx:id="lblPatientName" text="Seleccione un paciente para ver historia" style="-fx-font-size: 18; -fx-font-weight: bold;"/>
+                <HBox alignment="CENTER_LEFT" spacing="20.0">
+                    <children>
+                        <Label fx:id="lblPatientName" text="Seleccione un paciente" style="-fx-font-size: 18; -fx-font-weight: 800; -fx-text-fill: #2c3e50;"/>
+                        <Region HBox.hgrow="ALWAYS" />
+                        <Button styleClass="btn-secondary" text=" Nueva Consulta" onAction="#handleNew">
+                             <graphic><FontAwesomeIconView glyphName="PLUS_CIRCLE" size="14" fill="#1976D2"/></graphic>
+                        </Button>
+                    </children>
+                </HBox>
                 <Separator />
                 
                 <Label text="Motivo de Consulta" styleClass="form-label" />
-                <TextArea fx:id="txtReason" prefHeight="80.0" wrapText="true" />
+                <TextArea fx:id="txtReason" prefHeight="80.0" wrapText="true" promptText="Escriba el motivo de la visita..." />
                 
                 <Label text="Diagnóstico Médico" styleClass="form-label" />
-                <TextArea fx:id="txtDiagnosis" prefHeight="100.0" wrapText="true" />
+                <TextArea fx:id="txtDiagnosis" prefHeight="100.0" wrapText="true" promptText="Escriba el diagnóstico..." />
                 
                 <Label text="Tratamiento / Receta" styleClass="form-label" />
-                <TextArea fx:id="txtTreatment" prefHeight="100.0" wrapText="true" />
+                <TextArea fx:id="txtTreatment" prefHeight="100.0" wrapText="true" promptText="Prescripción y recomendaciones..." />
                 
                 <HBox alignment="CENTER_RIGHT" spacing="15.0">
-                    <Button styleClass="btn-secondary" text=" Limpiar" />
                     <Button styleClass="btn-primary" text=" Guardar Consulta" onAction="#handleSave">
                         <graphic><FontAwesomeIconView glyphName="SAVE" size="14" fill="WHITE"/></graphic>
                     </Button>

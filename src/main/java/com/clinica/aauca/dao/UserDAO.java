@@ -9,5 +9,6 @@ import java.util.Optional;
 public interface UserDAO {
     Optional<User> findByUsername(String username);
     boolean authenticate(String username, String password);
-    Optional<User> login(String username, String password); // Nuevo método
+    Optional<User> login(String username, String password);
+    java.util.List<com.clinica.aauca.model.User> findByRole(String role);
 }

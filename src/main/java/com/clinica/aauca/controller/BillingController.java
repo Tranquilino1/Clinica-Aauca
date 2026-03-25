@@ -1,6 +1,11 @@
 package com.clinica.aauca.controller;
 
+import com.clinica.aauca.dao.ProductDAO;
+import com.clinica.aauca.dao.ProductDAOImpl;
+import com.clinica.aauca.dao.PatientDAO;
+import com.clinica.aauca.dao.PatientDAOImpl;
 import com.clinica.aauca.model.Product;
+import com.clinica.aauca.model.Patient;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -20,41 +25,96 @@ public class BillingController implements Initializable {
     @FXML private TableColumn<Product, Integer> colItemStock;
     @FXML private ListView<String> listInvoiceDetails;
     @FXML private Label lblSubtotal, lblTax, lblTotal;
+    @FXML private ComboBox<Patient> cmbPatient;
+    @FXML private TextField txtSearchProduct;
 
+    private final ProductDAO productDAO = new ProductDAOImpl();
+    private final PatientDAO patientDAO = new PatientDAOImpl();
     private final ObservableList<Product> productList = FXCollections.observableArrayList();
+    private final ObservableList<Patient> patientList = FXCollections.observableArrayList();
+    
     private double currentSubtotal = 0.0;
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
+        setupTable();
+        loadInventory();
+        loadPatients();
+        setupSearch();
+    }
+
+    private void setupTable() {
         colItemName.setCellValueFactory(new PropertyValueFactory<>("name"));
         colItemPrice.setCellValueFactory(new PropertyValueFactory<>("price"));
         colItemStock.setCellValueFactory(new PropertyValueFactory<>("stock"));
-
-        loadInventory();
     }
 
     private void loadInventory() {
-        productList.addAll(
-            new Product(1, "Paracetamol 500mg", 5.50, 100, "Fármaco"),
-            new Product(2, "Amoxicilina 1g", 12.00, 50, "Fármaco"),
-            new Product(3, "Consulta General", 50.0, 999, "Servicio"),
-            new Product(4, "Electrocardiograma", 85.0, 999, "Servicio")
-        );
+        productList.setAll(productDAO.findAll());
         tblInventory.setItems(productList);
+    }
+
+    private void loadPatients() {
+        patientList.setAll(patientDAO.findAll());
+        cmbPatient.setItems(patientList);
+        
+        cmbPatient.setCellFactory(param -> new ListCell<>() {
+            @Override
+            protected void updateItem(Patient item, boolean empty) {
+                super.updateItem(item, empty);
+                if (empty || item == null) {
+                    setText(null);
+                } else {
+                    setText(item.getFullName() + " (DIP: " + item.getDni() + ")");
+                }
+            }
+        });
+        cmbPatient.setButtonCell(new ListCell<>() {
+            @Override
+            protected void updateItem(Patient item, boolean empty) {
+                super.updateItem(item, empty);
+                if (empty || item == null) {
+                    setText(null);
+                } else {
+                    setText(item.getFullName());
+                }
+            }
+        });
+    }
+
+    private void setupSearch() {
+        txtSearchProduct.textProperty().addListener((obs, oldVal, newVal) -> {
+            filterProducts(newVal);
+        });
+    }
+
+    private void filterProducts(String query) {
+        if (query == null || query.isEmpty()) {
+            tblInventory.setItems(productList);
+        } else {
+            ObservableList<Product> filtered = FXCollections.observableArrayList();
+            for (Product p : productList) {
+                if (p.getName().toLowerCase().contains(query.toLowerCase()) || 
+                    p.getCategory().toLowerCase().contains(query.toLowerCase())) {
+                    filtered.add(p);
+                }
+            }
+            tblInventory.setItems(filtered);
+        }
     }
 
     @FXML
     private void addToInvoice(ActionEvent event) {
         Product p = tblInventory.getSelectionModel().getSelectedItem();
         if (p != null) {
-            listInvoiceDetails.getItems().add(p.getName() + " - $" + p.getPrice());
+            listInvoiceDetails.getItems().add(p.getName() + " - $" + String.format("%.2f", p.getPrice()));
             updateTotal(p.getPrice());
         }
     }
 
     private void updateTotal(double price) {
         currentSubtotal += price;
-        double tax = currentSubtotal * 0.15;
+        double tax = currentSubtotal * 0.12;
         double total = currentSubtotal + tax;
 
         lblSubtotal.setText(String.format("$%.2f", currentSubtotal));
@@ -63,21 +123,32 @@ public class BillingController implements Initializable {
     }
 
     @FXML
-    private void emitInvoice(ActionEvent event) {
-        if (listInvoiceDetails.getItems().isEmpty()) {
-            showAlert("Aviso", "La factura está vacía");
-            return;
-        }
-        
-        showAlert("Facturación", "Factura emitida correctamente e impresa en PDF.");
+    private void clearInvoice(ActionEvent event) {
         listInvoiceDetails.getItems().clear();
         currentSubtotal = 0;
         updateTotal(0);
+        cmbPatient.getSelectionModel().clearSelection();
+    }
+
+    @FXML
+    private void emitInvoice(ActionEvent event) {
+        if (cmbPatient.getSelectionModel().isEmpty()) {
+            showAlert("Aviso", "Primero seleccione un paciente para la factura.");
+            return;
+        }
+        if (listInvoiceDetails.getItems().isEmpty()) {
+            showAlert("Aviso", "La factura no tiene ningún detalle.");
+            return;
+        }
+        
+        showAlert("Éxito", "Factura emitida correctamente para " + cmbPatient.getValue().getFullName());
+        clearInvoice(event);
     }
 
     private void showAlert(String title, String content) {
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
         alert.setTitle(title);
+        alert.setHeaderText(null);
         alert.setContentText(content);
         alert.show();
     }
