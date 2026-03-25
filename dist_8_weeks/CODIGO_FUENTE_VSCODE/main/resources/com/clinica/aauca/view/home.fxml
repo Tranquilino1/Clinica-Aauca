@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.chart.*?>
+<?import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView?>
+
+<ScrollPane fitToWidth="true" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" 
+           fx:controller="com.clinica.aauca.controller.HomeController" style="-fx-background-color: transparent;">
+    <content>
+        <VBox spacing="25.0" style="-fx-background-color: transparent;">
+            <padding>
+                <Insets bottom="30.0" left="30.0" right="30.0" top="30.0" />
+            </padding>
+            <children>
+                <HBox spacing="20.0">
+                    <children>
+                        <!-- Tarjetas (Cards) de resumen -->
+                        <VBox prefWidth="250.0" styleClass="card-stat, card-blue">
+                            <children>
+                                <HBox alignment="CENTER_LEFT" spacing="15.0">
+                                    <FontAwesomeIconView glyphName="USERS" size="30" fill="WHITE"/>
+                                    <VBox>
+                                        <Label text="PACIENTES HOY" styleClass="card-title" />
+                                        <Label fx:id="lblPacientesHoy" text="28" styleClass="card-number" />
+                                    </VBox>
+                                </HBox>
+                            </children>
+                        </VBox>
+                        
+                        <VBox prefWidth="250.0" styleClass="card-stat, card-green">
+                            <children>
+                                <HBox alignment="CENTER_LEFT" spacing="15.0">
+                                    <FontAwesomeIconView glyphName="CALENDAR" size="30" fill="WHITE"/>
+                                    <VBox>
+                                        <Label text="CITAS PENDIENTES" styleClass="card-title" />
+                                        <Label fx:id="lblCitasPendientes" text="12" styleClass="card-number" />
+                                    </VBox>
+                                </HBox>
+                            </children>
+                        </VBox>
+                        
+                        <VBox prefWidth="250.0" styleClass="card-stat, card-orange">
+                            <children>
+                                <HBox alignment="CENTER_LEFT" spacing="15.0">
+                                    <FontAwesomeIconView glyphName="MONEY" size="30" fill="WHITE"/>
+                                    <VBox>
+                                        <Label text="INGRESOS MES" styleClass="card-title" />
+                                        <Label fx:id="lblIngresos" text="$4,500" styleClass="card-number" />
+                                    </VBox>
+                                </HBox>
+                            </children>
+                        </VBox>
+                    </children>
+                </HBox>
+                
+                <HBox spacing="30.0" VBox.vgrow="ALWAYS">
+                    <children>
+                        <!-- Gráfico de barras -->
+                        <VBox styleClass="chart-container" HBox.hgrow="ALWAYS">
+                            <children>
+                                <Label text="Afluencia de Pacientes (Semanal)" styleClass="chart-title" />
+                                <BarChart fx:id="chartPacientes" prefHeight="350.0" legendVisible="false">
+                                    <xAxis><CategoryAxis label="Día"/></xAxis>
+                                    <yAxis><NumberAxis label="Pacientes"/></yAxis>
+                                </BarChart>
+                            </children>
+                        </VBox>
+                        
+                        <!-- Gráfico de pastel -->
+                        <VBox prefWidth="400.0" styleClass="chart-container">
+                            <children>
+                                <Label text="Distribución de Servicios" styleClass="chart-title" />
+                                <PieChart fx:id="chartServicios" prefHeight="350.0" labelsVisible="true" />
+                            </children>
+                        </VBox>
+                    </children>
+                </HBox>
+            </children>
+        </VBox>
+    </content>
+</ScrollPane>

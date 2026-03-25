@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView?>
+
+<VBox spacing="20.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" 
+      fx:controller="com.clinica.aauca.controller.AppointmentController"
+      styleClass="module-container">
+    <padding>
+        <Insets bottom="30.0" left="30.0" right="30.0" top="20.0" />
+    </padding>
+    
+    <children>
+        <HBox alignment="CENTER_LEFT" spacing="20.0">
+            <children>
+                <Label text="AGENDA DE CITAS" styleClass="module-title" />
+                <Region HBox.hgrow="ALWAYS" />
+                <DatePicker fx:id="dpDate" promptText="Filtrar por fecha..." />
+                <Button styleClass="btn-primary" text=" Programar Cita">
+                    <graphic><FontAwesomeIconView glyphName="CALENDAR_PLUS_O" size="14" fill="WHITE"/></graphic>
+                </Button>
+            </children>
+        </HBox>
+        
+        <TableView fx:id="tblAppointments" VBox.vgrow="ALWAYS" styleClass="modern-table">
+            <columns>
+                <TableColumn fx:id="colTime" prefWidth="100.0" text="Hora" />
+                <TableColumn fx:id="colPatient" prefWidth="250.0" text="Paciente" />
+                <TableColumn fx:id="colDoctor" prefWidth="250.0" text="Médico Asignado" />
+                <TableColumn fx:id="colReason" prefWidth="300.0" text="Motivo / Diagnóstico" />
+                <TableColumn fx:id="colStatus" prefWidth="150.0" text="Estado" />
+            </columns>
+        </TableView>
+    </children>
+</VBox>

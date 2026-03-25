@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>INFORME: CLÍNICA AAUCA</title>
+    <script src="https://cdn.jsdelivr.net/npm/mermaid/dist/mermaid.min.js"></script>
+    <style>
+        body { font-family: 'Segoe UI', sans-serif; line-height: 1.6; max-width: 900px; margin: 40px auto; background: #f4f7f6; padding: 20px; }
+        .card { background: white; padding: 40px; border-radius: 12px; box-shadow: 0 4px 20px rgba(0,0,0,0.08); }
+        h1 { color: #2C3E50; border-bottom: 3px solid #3498DB; }
+        h2 { color: #2980B9; margin-top: 30px; }
+        .mermaid { background: white; padding: 20px; border: 1px solid #eee; border-radius: 8px; margin: 20px 0; min-height: 250px; }
+        pre { background: #f8f9fa; padding: 15px; border-radius: 5px; overflow-x: auto; font-size: 0.9em; }
+    </style>
+    <script>
+        mermaid.initialize({ startOnLoad: true, theme: 'default', securityLevel: 'loose' });
+    </script>
+</head>
+<body>
+    <div class="card">
+        <h1>INFORME TÉCNICO: CLÍNICA AAUCA</h1>
+        
+        <h2>Diagrama de Arquitectura (Clases)</h2>
+        <div class="mermaid">
+classDiagram
+    class User {
+        +int id
+        +String username
+        +String fullName
+        +String role
+    }
+    class UserDAO {
+        login(username, password)
+    }
+    class UserDAOImpl {
+        login(username, password)
+    }
+    class LoginController {
+        handleLogin()
+    }
+    class DashboardController {
+        setUser(user)
+    }
+    UserDAO <|-- UserDAOImpl
+    LoginController o-- UserDAO
+    DashboardController o-- User
+    UserDAOImpl ..> User
+        </div>
+
+        <h2>Flujo de Autenticación</h2>
+        <div class="mermaid">
+sequenceDiagram
+    participant Usuario
+    participant LoginController
+    participant UserDAOImpl
+    participant SQLite
+    Usuario->>LoginController: Ingresa Credenciales
+    LoginController->>UserDAOImpl: login(user, pass)
+    UserDAOImpl->>SQLite: Consulta Usuario
+    SQLite-->>UserDAOImpl: Password Hash
+    UserDAOImpl->>UserDAOImpl: Validar BCrypt
+    UserDAOImpl-->>LoginController: User Object
+    LoginController-->>Usuario: Muestra Dashboard
+        </div>
+
+        <h2>Estructura del Proyecto</h2>
+        <pre>
+SGC/
+├── src/main/java/com/clinica/aauca/
+│   ├── Launcher.java (Punto de entrada Fat JAR)
+│   ├── controller/ (Login/Dashboard)
+│   ├── dao/ (Interfáz y Lógica)
+│   └── model/ (Entidad User)
+├── ClinicaAauca.exe (Ejecutable nativo C#)
+└── ClinicaAaucaFinal/ (Distribución portable con JRE)
+        </pre>
+        <h2>Metodología de Desarrollo: SCRUM</h2>
+        <p>El proyecto se ejecuta en un ciclo de 8 semanas con entregas incrementales:</p>
+        <div style="background: #e1f5fe; padding: 15px; border-radius: 8px;">
+            <ul>
+                <li><strong>S1: Autenticación & Base</strong> (Completado)</li>
+                <li><strong>S2: Dashboard & Navegación</strong> (En curso)</li>
+                <li><strong>S3-S5: CRUD Pacientes, Citas e Historias</strong></li>
+                <li><strong>S6-S8: Facturación, Reportes y Empaquetado</strong></li>
+            </ul>
+        </div>
+
+        <div class="footer">
+            Finalización de Fase 1 - Plan Estratégico Clínica Aauca
+        </div>
+    </div>
+</body>
+</html>

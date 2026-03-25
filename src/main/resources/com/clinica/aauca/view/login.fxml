@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+<?import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView?>
+
+<StackPane prefHeight="700.0" prefWidth="1000.0" style="-fx-background-color: #263238;" stylesheets="@../css/style.css" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.clinica.aauca.controller.LoginController">
+    <children>
+        <VBox alignment="CENTER" maxWidth="450.0" spacing="30.0" style="-fx-background-color: white; -fx-background-radius: 25; -fx-padding: 60; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.4), 50, 0, 0, 15);">
+            <children>
+                <VBox alignment="CENTER" spacing="15.0">
+                    <FontAwesomeIconView glyphName="STETHOSCOPE" size="70" fill="#1565C0" />
+                    <Label text="SISTEMA CLÍNICO AAUCA" style="-fx-font-size: 24px; -fx-font-weight: bold; -fx-text-fill: #263238; -fx-letter-spacing: 2px;" />
+                    <Label text="Logística y Gestión Médica Avanzada" style="-fx-text-fill: #90A4AE; -fx-font-size: 14px;" />
+                </VBox>
+                
+                <Separator opacity="0.1" />
+                
+                <VBox spacing="10.0">
+                    <Label text="Credenciales de Acceso" style="-fx-font-weight: bold; -fx-text-fill: #455A64;" />
+                    <TextField fx:id="txtUsername" promptText="Usuario corporativo..." style="-fx-padding: 15; -fx-background-radius: 10; -fx-background-color: #F5F7F9; -fx-border-color: #ECEFF1; -fx-border-radius: 10;" />
+                </VBox>
+                
+                <VBox spacing="10.0">
+                    <PasswordField fx:id="txtPassword" promptText="••••••••" style="-fx-padding: 15; -fx-background-radius: 10; -fx-background-color: #F5F7F9; -fx-border-color: #ECEFF1; -fx-border-radius: 10;" />
+                </VBox>
+                
+                <Label fx:id="lblError" styleClass="error-label" text="" visible="false" />
+                
+                <Button fx:id="btnLogin" defaultButton="true" mnemonicParsing="false" onAction="#handleLogin" prefHeight="55.0" prefWidth="400.0" styleClass="login-btn" style="-fx-background-color: #1565C0; -fx-background-radius: 15; -fx-font-size: 16px; -fx-font-weight: bold;" text=" INICIAR SESIÓN SEGURA" />
+                
+                <Label text="v3.5 Platinum Release" style="-fx-text-fill: #B0BEC5; -fx-font-size: 11px;" />
+            </children>
+        </VBox>
+    </children>
+</StackPane>

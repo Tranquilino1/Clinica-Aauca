@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+<?import de.jensd.fx.glyphs.fontawesome.*?>
+
+<HBox prefHeight="700.0" prefWidth="1200.0" stylesheets="@../css/style.css" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.clinica.aauca.controller.DashboardController">
+
+    <!-- Sidebar Lateral -->
+    <VBox prefWidth="250.0" styleClass="sidebar">
+        <children>
+            <!-- Logo Sidebar -->
+            <VBox alignment="CENTER" spacing="10.0" styleClass="sidebar-header">
+                <FontAwesomeIconView glyphName="STETHOSCOPE" size="40" fill="WHITE" />
+                <Label text="CLÍNICA AAUCA" styleClass="sidebar-title" />
+                <Separator opacity="0.2" />
+            </VBox>
+
+            <!-- Menú Dinámico -->
+            <ScrollPane fitToWidth="true" style="-fx-background-color: transparent;" VBox.vgrow="ALWAYS">
+                <VBox fx:id="menuContainer" spacing="5.0" styleClass="sidebar-menu">
+                    <!-- Los items se agregan dinámicamente desde el controlador -->
+                </VBox>
+            </ScrollPane>
+        </children>
+    </VBox>
+
+    <!-- Área de Contenido Principal -->
+    <VBox HBox.hgrow="ALWAYS" styleClass="main-content">
+        <children>
+            <!-- Barra superior -->
+            <HBox alignment="CENTER_LEFT" spacing="20.0" styleClass="top-bar">
+                <children>
+                    <Label fx:id="lblWelcome" styleClass="welcome-label" text="¡Bienvenido, Usuario!" />
+                    <Region HBox.hgrow="ALWAYS" />
+                    <Label fx:id="lblRole" styleClass="role-badge" text="Rol: Admin" />
+                    <FontAwesomeIconView glyphName="USER_CIRCLE" size="30" fill="#2C3E50" />
+                </children>
+            </HBox>
+
+            <!-- Grid de Estadísticas -->
+            <HBox spacing="20.0" styleClass="stats-row">
+                <children>
+                    <VBox styleClass="stat-card" HBox.hgrow="ALWAYS">
+                        <Label text="Estado de Actividad" styleClass="stat-title" />
+                        <Label fx:id="lblStat1" text="-" styleClass="stat-value" />
+                        <FontAwesomeIconView glyphName="CHART_LINE" size="40" styleClass="stat-icon" />
+                    </VBox>
+                    <VBox styleClass="stat-card" HBox.hgrow="ALWAYS">
+                        <Label text="Alertas del Sistema" styleClass="stat-title" />
+                        <Label fx:id="lblStat2" text="-" styleClass="stat-value" />
+                        <FontAwesomeIconView glyphName="BELL" size="40" styleClass="stat-icon" />
+                    </VBox>
+                </children>
+            </HBox>
+
+            <!-- Área de trabajo (Placeholder) -->
+            <StackPane VBox.vgrow="ALWAYS" styleClass="working-area">
+                <children>
+                    <VBox alignment="CENTER" spacing="10.0">
+                        <Label text="Seleccione una opción del menú para comenzar." styleClass="label-subtitle" />
+                        <FontAwesomeIconView glyphName="CLIPBOARD" size="100" opacity="0.1" />
+                    </VBox>
+                </children>
+            </StackPane>
+        </children>
+    </VBox>
+
+</HBox>

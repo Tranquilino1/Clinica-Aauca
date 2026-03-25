@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView?>
+
+<HBox spacing="20.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" 
+      fx:controller="com.clinica.aauca.controller.HistoryController" styleClass="module-container">
+    <padding>
+        <Insets bottom="30.0" left="30.0" right="30.0" top="30.0" />
+    </padding>
+    
+    <children>
+        <!-- Buscador de paciente para cargar expediente -->
+        <VBox prefWidth="350.0" spacing="15.0" styleClass="sidebar-inner">
+            <Label text="EXPEDIENTES" styleClass="module-title" />
+            <TextField fx:id="txtSearchPatient" promptText="Buscar paciente por DNI..." />
+            <ListView fx:id="listPatients" VBox.vgrow="ALWAYS" />
+        </VBox>
+        
+        <!-- Editor de Consulta Médica -->
+        <VBox HBox.hgrow="ALWAYS" spacing="15.0" styleClass="card-content">
+            <children>
+                <Label fx:id="lblPatientName" text="Seleccione un paciente para ver historia" style="-fx-font-size: 18; -fx-font-weight: bold;"/>
+                <Separator />
+                
+                <Label text="Motivo de Consulta" styleClass="form-label" />
+                <TextArea fx:id="txtReason" prefHeight="80.0" wrapText="true" />
+                
+                <Label text="Diagnóstico Médico" styleClass="form-label" />
+                <TextArea fx:id="txtDiagnosis" prefHeight="100.0" wrapText="true" />
+                
+                <Label text="Tratamiento / Receta" styleClass="form-label" />
+                <TextArea fx:id="txtTreatment" prefHeight="100.0" wrapText="true" />
+                
+                <HBox alignment="CENTER_RIGHT" spacing="15.0">
+                    <Button styleClass="btn-secondary" text=" Limpiar" />
+                    <Button styleClass="btn-primary" text=" Guardar Consulta" onAction="#handleSave">
+                        <graphic><FontAwesomeIconView glyphName="SAVE" size="14" fill="WHITE"/></graphic>
+                    </Button>
+                </HBox>
+            </children>
+        </VBox>
+    </children>
+</HBox>
