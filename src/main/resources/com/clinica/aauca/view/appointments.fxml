@@ -13,25 +13,68 @@
     </padding>
     
     <children>
-        <HBox alignment="CENTER_LEFT" spacing="20.0">
+        <HBox spacing="25.0" VBox.vgrow="ALWAYS">
             <children>
-                <Label text="AGENDA DE CITAS" styleClass="module-title" />
-                <Region HBox.hgrow="ALWAYS" />
-                <DatePicker fx:id="dpDate" promptText="Filtrar por fecha..." />
-                <Button styleClass="btn-primary" text=" Programar Cita">
-                    <graphic><FontAwesomeIconView glyphName="CALENDAR_PLUS_O" size="14" fill="WHITE"/></graphic>
-                </Button>
+                <!-- AGENDA PRINCIPAL -->
+                <VBox spacing="15.0" HBox.hgrow="ALWAYS">
+                    <children>
+                        <HBox alignment="CENTER_LEFT" spacing="20.0">
+                            <children>
+                                <Label text="AGENDA DE CITAS" styleClass="module-title" />
+                                <Region HBox.hgrow="ALWAYS" />
+                                <DatePicker fx:id="dpDate" promptText="Filtrar por fecha..." onAction="#handleFilter" />
+                            </children>
+                        </HBox>
+                        <TableView fx:id="tblAppointments" VBox.vgrow="ALWAYS" styleClass="modern-table">
+                            <columns>
+                                <TableColumn fx:id="colTime" prefWidth="90.0" text="Hora" />
+                                <TableColumn fx:id="colPatient" prefWidth="220.0" text="Paciente" />
+                                <TableColumn fx:id="colDoctor" prefWidth="220.0" text="Médico" />
+                                <TableColumn fx:id="colReason" prefWidth="250.0" text="Motivo" />
+                                <TableColumn fx:id="colStatus" prefWidth="120.0" text="Estado" />
+                            </columns>
+                        </TableView>
+                    </children>
+                </VBox>
+
+                <!-- PANEL DE PROGRAMACIÓN (INTERACTIVO) -->
+                <VBox prefWidth="350.0" spacing="15.0" styleClass="card-content" style="-fx-background-color: white; -fx-background-radius: 15; -fx-padding: 25;">
+                    <children>
+                        <Label text="PROGRAMAR CITA" style="-fx-font-size: 18; -fx-font-weight: bold; -fx-text-fill: #0D47A1;" />
+                        <Separator />
+                        
+                        <Label text="Seleccionar Paciente" styleClass="form-label" />
+                        <ComboBox fx:id="cbPatient" maxWidth="Infinity" promptText="Buscar paciente..." />
+                        
+                        <Label text="Seleccionar Médico" styleClass="form-label" />
+                        <ComboBox fx:id="cbDoctor" maxWidth="Infinity" promptText="Seleccione médico..." />
+                        
+                        <HBox spacing="10.0">
+                            <VBox HBox.hgrow="ALWAYS">
+                                <Label text="Fecha" styleClass="form-label" />
+                                <DatePicker fx:id="dpNewAppointmentDate" maxWidth="Infinity" />
+                            </VBox>
+                            <VBox prefWidth="100.0">
+                                <Label text="Hora" styleClass="form-label" />
+                                <TextField fx:id="txtTime" promptText="HH:mm" />
+                            </VBox>
+                        </HBox>
+                        
+                        <Label text="Motivo de la Cita" styleClass="form-label" />
+                        <TextArea fx:id="txtReason" prefHeight="80.0" wrapText="true" promptText="Breve descripción..." />
+                        
+                        <Region VBox.vgrow="ALWAYS" />
+                        
+                        <Button fx:id="btnSchedule" maxWidth="Infinity" styleClass="btn-primary" text=" Confirmar Cita" onAction="#handleSchedule">
+                             <graphic><FontAwesomeIconView glyphName="CALENDAR_PLUS_ALT" size="16" fill="WHITE"/></graphic>
+                        </Button>
+                        
+                        <Button maxWidth="Infinity" styleClass="btn-secondary" text=" Limpiar Formulario" onAction="#handleClear">
+                             <graphic><FontAwesomeIconView glyphName="REFRESH" size="14" fill="#0D47A1"/></graphic>
+                        </Button>
+                    </children>
+                </VBox>
             </children>
         </HBox>
-        
-        <TableView fx:id="tblAppointments" VBox.vgrow="ALWAYS" styleClass="modern-table">
-            <columns>
-                <TableColumn fx:id="colTime" prefWidth="100.0" text="Hora" />
-                <TableColumn fx:id="colPatient" prefWidth="250.0" text="Paciente" />
-                <TableColumn fx:id="colDoctor" prefWidth="250.0" text="Médico Asignado" />
-                <TableColumn fx:id="colReason" prefWidth="300.0" text="Motivo / Diagnóstico" />
-                <TableColumn fx:id="colStatus" prefWidth="150.0" text="Estado" />
-            </columns>
-        </TableView>
     </children>
 </VBox>

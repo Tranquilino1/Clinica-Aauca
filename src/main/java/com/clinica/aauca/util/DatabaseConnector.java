@@ -39,9 +39,9 @@ public class DatabaseConnector {
      * Inicializa las tablas si no existen leyendo el archivo schema.sql.
      */
     private static void initializeDatabase() {
-        try (Connection conn = DriverManager.getConnection(URL);
-             Statement stmt = conn.createStatement()) {
-            
+        if (connection == null) return;
+        
+        try (Statement stmt = connection.createStatement()) {
             // Logica para leer el esquema desde resources
             InputStream is = DatabaseConnector.class.getResourceAsStream("/com/clinica/aauca/sql/schema.sql");
             if (is == null) {
@@ -53,10 +53,13 @@ public class DatabaseConnector {
                 StringBuilder sql = new StringBuilder();
                 String line;
                 while ((line = br.readLine()) != null) {
-                    // Evitar comentarios y líneas vacías
-                    if (line.trim().isEmpty() || line.startsWith("--")) continue;
-                    sql.append(line).append(" ");
-                    if (line.trim().endsWith(";")) {
+                    // Limpiar la línea eliminando comentarios -- y espacios extra
+                    String cleanedLine = line.split("--")[0].trim();
+                    if (cleanedLine.isEmpty()) continue;
+                    
+                    sql.append(cleanedLine).append(" ");
+                    
+                    if (cleanedLine.endsWith(";")) {
                         stmt.execute(sql.toString());
                         sql.setLength(0);
                     }
@@ -66,6 +69,7 @@ public class DatabaseConnector {
             
         } catch (Exception e) {
             System.err.println("Error al inicializar la base de datos: " + e.getMessage());
+            e.printStackTrace();
         }
     }
 }

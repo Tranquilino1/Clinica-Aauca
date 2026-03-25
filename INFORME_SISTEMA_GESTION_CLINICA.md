@@ -1,92 +1,51 @@
-# INFORME TÉCNICO: SISTEMA DE GESTIÓN CLÍNICA AAUCA v1.0
-
-Este informe detalla la arquitectura, el diseño y la implementación del sistema de autenticación dinámica para la Clínica Aauca.
+# INFORME TÉCNICO FINAL: CLÍNICA AAUCA v3.9 PLATINUM ULTRA
 
 ## 1. Resumen Ejecutivo
-Se ha desarrollado un sistema de escritorio multiplataforma (Windows nativo) que permite la gestión segura de accesos mediante roles. El sistema destaca por su interfaz moderna, seguridad basada en hasheo industrial (BCrypt) y una arquitectura modular escalable.
+Se ha culminado la versión **v3.9 Platinum Ultra** del Sistema de Gestión Clínica Aauca, optimizado específicamente para los requisitos de **Djibloho / Oyala - Guinea Ecuatorial**. El sistema ha pasado de ser un prototipo de autenticación a una solución hospitalaria integral que cubre desde la programación de citas hasta la facturación electrónica y el manejo de historias clínicas.
 
-## 2. Diagramas de Arquitectura
+## 2. Nuevas Capacidades Implementadas (v3.9)
 
-### 📊 Diagrama de Clases (Patrón DAO)
+### 🏥 Módulos Hospitalarios Interactivos
+*   **Agenda de Citas Inteligente**: Panel interactivo con selectores de pacientes y médicos vinculados en tiempo real.
+*   **Gestión de Expedientes (EHR)**: Navegación fluida por el historial clínico de los pacientes con carga dinámica de consultas previas.
+*   **Facturación (FCFA)**: Sistema de cobro localizado con IVA del 15% (E.G.) y catálogo de servicios médicos.
+
+### 📄 Interoperabilidad Digital (PDF Engine)
+Se ha integrado un motor de generación de documentos PDF (`OpenPDF`) que permite:
+*   **Facturas Oficiales**: Comprobantes de pago con membrete de la sede de Djibloho.
+*   **Fichas Médicas**: Exportación del historial completo del paciente.
+*   **Recetas Médicas**: Prescripciones imprimibles con firma digitalizada del facultativo.
+
+### 🔐 Seguridad y RBAC (Acceso por Roles)
+Control granular de la interfaz según el cargo del usuario:
+*   **ADMIN**: Control total financiero y administrativo.
+*   **MÉDICO**: Foco en historiales y recetas (Facturación oculta por privacidad).
+*   **RECEPCIÓN**: Gestión de agenda y facturación (Historiales médicos ocultos).
+*   **ENFERMERO**: Registro de constantes vitales y hospitalización.
+
+## 3. Arquitectura del Sistema
 ```mermaid
-classDiagram
-    class User {
-        +int id
-        +String username
-        +String fullName
-        +String role
-    }
-
-    class UserDAO {
-        +login(user, pass)
-    }
-
-    class UserDAOImpl {
-        +login(user, pass)
-    }
-
-    class LoginController {
-        +handleLogin()
-    }
-
-    class DashboardController {
-        +setUser(user)
-    }
-
-    UserDAO <|-- UserDAOImpl
-    LoginController o-- UserDAO
-    DashboardController o-- User
-    UserDAOImpl ..> User
+graph TD
+    A[Nivel Interfaz - JavaFX] --> B[Controladores de Lógica]
+    B --> C[Capa DAO - Data Access Object]
+    C --> D[Motor SQLite v3.42]
+    B --> E[Motor PDF - OpenPDF]
+    D --> F[(clinica_aauca.db)]
+    A --> G[CSS Moderno / FontAwesome]
 ```
 
-### 🔐 Diagrama de Secuencia (Flujo de Autenticación)
-```mermaid
-sequenceDiagram
-    participant Usuario
-    participant LoginController
-    participant UserDAOImpl
-    participant SQLite
-    Usuario->>LoginController: Ingresa Credenciales
-    LoginController->>UserDAOImpl: login(user, pass)
-    UserDAOImpl->>SQLite: SELECT * FROM usuarios
-    SQLite-->>UserDAOImpl: Password Hash
-    UserDAOImpl->>UserDAOImpl: Validar con BCrypt
-    alt Éxito
-        UserDAOImpl-->>LoginController: Optional(User)
-        LoginController-->>Usuario: Carga Dashboard
-    else Fallo
-        UserDAOImpl-->>LoginController: Optional.empty()
-        LoginController-->>Usuario: Muestra Error
-    end
-```
+## 4. Datos de Localización (Djibloho / Oyala)
+*   **Moneda**: Franco CFA (FCFA)
+*   **Impuesto**: 15% IVA (Local)
+*   **UBICACIÓN**: Sede Central - Ciudad de la Paz, Djibloho.
 
-## 3. Estructura del Proyecto (Estandarización Maven)
-El proyecto sigue el estándar de Maven para facilitar su mantenimiento y escalabilidad futura.
-
-```text
-SGC/
-├── src/main/java/               # Código Fuente Java
-│   ├── com.clinica.aauca/       
-│   │   ├── Launcher.java        # Punto de entrada para Fat JAR
-│   │   ├── MainApp.java         # Clase Application (JavaFX)
-│   │   ├── controller/          # Controladores (Login/Dashboard)
-│   │   ├── dao/                 # Patrón Data Access Object
-│   │   ├── model/               # Entidades (User)
-│   │   └── util/                # DatabaseConnector
-│   └── module-info.java         # Modularidad Java 17
-├── src/main/resources/          # Recursos (Vista y Estilo)
-│   ├── view/                    # Archivos FXML
-│   ├── css/                     # Estilo CSS Moderno
-│   └── sql/                     # Esquema SQL (schema.sql)
-├── ClinicaAauca.exe             # Lanzador nativo compilado en C#
-└── ClinicaAaucaFinal/           # Carpeta para distribución portable (con JRE)
-```
-
-## 4. Detalles de Implementación Técnica
-*   **Java 17 LTS**: Uso de las últimas funcionalidades del lenguaje y modularidad.
-*   **JavaFX 17**: Interfaz gráfica enriquecida con CSS personalizado.
-*   **BCrypt (Strong Hashing)**: Las contraseñas se almacenan como hashes irreversibles mediante `jbcrypt`.
-*   **SQLite JDBC**: Base de datos integrada que no requiere instalación en el cliente.
-*   **C# Native Launcher**: Un ejecutable en C# que orquesta la carga del JRE interno para garantizar que el archivo `.exe` funcione en cualquier Windows.
+## 5. Guía de Ejecución
+1.  **Ejecutable**: Iniciar mediante `ClinicaAauca.exe`.
+2.  **Base de Datos**: El archivo `clinica_aauca.db` contiene ya la carga inicial de pacientes (Santiago Obiang, etc.) y productos.
+3.  **Credenciales**:
+    *   Admin: `admin` / `admin123`
+    *   Médico: `medico1` / `medico123`
+    *   Recepción: `enfermero1` / `recep123`
 
 ---
+*Informe generado automáticamente por Antigravity AI - Google Deepmind Team.*

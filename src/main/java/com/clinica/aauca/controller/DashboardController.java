@@ -36,20 +36,34 @@ public class DashboardController {
     }
 
     private void configureVisibility() {
-        String role = currentUser.getRole();
-        // Lógica de visibilidad avanzada: ocultar botones por rol
-        if ("MEDICO".equalsIgnoreCase(role)) {
-            removeButton(btnFacturacion);
-            removeButton(btnPacientes); 
-            lblRole.setText("PANEL MÉDICO");
-            lblRole.setStyle("-fx-text-fill: #2E7D32; -fx-background-color: #E8F5E9; -fx-padding: 5 15; -fx-background-radius: 15;");
-        } else if ("RECEPCION".equalsIgnoreCase(role)) {
-            removeButton(btnConsultas);
-            lblRole.setText("PANEL RECEPCIÓN");
-            lblRole.setStyle("-fx-text-fill: #1976D2; -fx-background-color: #E3F2FD; -fx-padding: 5 15; -fx-background-radius: 15;");
-        } else {
-            lblRole.setText("ADMINISTRADOR");
-            lblRole.setStyle("-fx-text-fill: #1A237E; -fx-background-color: #E3F2FD; -fx-padding: 5 15; -fx-background-radius: 15;");
+        String role = currentUser.getRole().toUpperCase();
+        
+        switch (role) {
+            case "MÉDICO":
+            case "MEDICO":
+                removeButton(btnFacturacion);
+                lblRole.setText("PANEL MÉDICO");
+                lblRole.setStyle("-fx-text-fill: #2E7D32; -fx-background-color: #E8F5E9; -fx-padding: 5 15; -fx-background-radius: 15;");
+                break;
+                
+            case "ENFERMERO":
+                removeButton(btnFacturacion);
+                lblRole.setText("PANEL ENFERMERÍA");
+                lblRole.setStyle("-fx-text-fill: #00838F; -fx-background-color: #E0F7FA; -fx-padding: 5 15; -fx-background-radius: 15;");
+                break;
+                
+            case "RECEPCIÓN":
+            case "RECEPCION":
+                removeButton(btnConsultas); // No ve historias clínicas (privacidad)
+                lblRole.setText("PANEL RECEPCIÓN");
+                lblRole.setStyle("-fx-text-fill: #1976D2; -fx-background-color: #E3F2FD; -fx-padding: 5 15; -fx-background-radius: 15;");
+                break;
+                
+            case "ADMIN":
+            default:
+                lblRole.setText("ADMINISTRADOR");
+                lblRole.setStyle("-fx-text-fill: #1A237E; -fx-background-color: #E8EAF6; -fx-padding: 5 15; -fx-background-radius: 15;");
+                break;
         }
     }
 

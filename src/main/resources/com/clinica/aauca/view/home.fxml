@@ -16,7 +16,10 @@
                 <!-- CABECERA DE ANALÍTICA VIP -->
                 <HBox spacing="10.0" alignment="CENTER_LEFT">
                     <FontAwesomeIconView glyphName="STETHOSCOPE" size="35" fill="#0D47A1" />
-                    <Label text="PANEL ESTRATÉGICO DE GESTIÓN" style="-fx-font-size: 26px; -fx-font-weight: bold; -fx-text-fill: #263238; -fx-letter-spacing: 1px;" />
+                    <VBox>
+                        <Label text="PANEL ESTRATÉGICO DE GESTIÓN" style="-fx-font-size: 26px; -fx-font-weight: bold; -fx-text-fill: #263238; -fx-letter-spacing: 1px;" />
+                        <Label text="📍 SEDE CENTRAL: Djibloho / Oyala - Guinea Ecuatorial" style="-fx-font-size: 14px; -fx-text-fill: #546E7A; -fx-font-weight: 500;" />
+                    </VBox>
                 </HBox>
                 
                 <Separator opacity="0.1" />
@@ -39,7 +42,7 @@
                         <VBox prefWidth="320.0" styleClass="card-stat" style="-fx-background-color: linear-gradient(to bottom right, #00796B, #00897B); -fx-background-radius: 15;">
                             <children>
                                 <HBox alignment="CENTER_LEFT" spacing="20.0">
-                                    <FontAwesomeIconView glyphName="CALENDAR_CHECK_O" size="45" fill="WHITE" opacity="0.3"/>
+                                    <FontAwesomeIconView glyphName="CALENDAR" size="45" fill="WHITE" opacity="0.3"/>
                                     <VBox>
                                         <Label text="CITAS SEMANA" style="-fx-text-fill: white; -fx-opacity: 0.8; -fx-font-weight: bold;" />
                                         <Label fx:id="lblCitasPendientes" text="156" style="-fx-text-fill: white; -fx-font-size: 32px; -fx-font-weight: bold;" />
@@ -54,7 +57,7 @@
                                     <FontAwesomeIconView glyphName="MONEY" size="45" fill="WHITE" opacity="0.3"/>
                                     <VBox>
                                         <Label text="CAJA DIARIA" style="-fx-text-fill: white; -fx-opacity: 0.8; -fx-font-weight: bold;" />
-                                        <Label fx:id="lblIngresos" text="$1,240.50" style="-fx-text-fill: white; -fx-font-size: 32px; -fx-font-weight: bold;" />
+                                        <Label fx:id="lblIngresos" text="750,000 FCFA" style="-fx-text-fill: white; -fx-font-size: 28px; -fx-font-weight: bold;" />
                                     </VBox>
                                 </HBox>
                             </children>

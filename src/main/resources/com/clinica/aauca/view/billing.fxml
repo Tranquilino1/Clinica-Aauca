@@ -44,15 +44,15 @@
             <VBox alignment="CENTER_RIGHT" spacing="5.0">
                 <HBox alignment="CENTER_RIGHT" spacing="20.0">
                     <Label text="SUBTOTAL:" style="-fx-font-weight: 600;" />
-                    <Label fx:id="lblSubtotal" text="$0.00" style="-fx-font-family: 'Courier New'; -fx-font-weight: bold;" />
+                    <Label fx:id="lblSubtotal" text="0 FCFA" style="-fx-font-family: 'Courier New'; -fx-font-weight: bold;" />
                 </HBox>
                 <HBox alignment="CENTER_RIGHT" spacing="20.0">
-                    <Label text="IVA (12%):" style="-fx-font-weight: 600;" />
-                    <Label fx:id="lblTax" text="$0.00" style="-fx-font-family: 'Courier New'; -fx-font-weight: bold;" />
+                    <Label text="IVA (15%):" style="-fx-font-weight: 600;" />
+                    <Label fx:id="lblTax" text="0 FCFA" style="-fx-font-family: 'Courier New'; -fx-font-weight: bold;" />
                 </HBox>
                 <HBox alignment="CENTER_RIGHT" spacing="20.0">
                     <Label text="TOTAL FINAL:" style="-fx-font-size: 20; -fx-font-weight: 800; -fx-text-fill: #27ae60;" />
-                    <Label fx:id="lblTotal" text="$0.00" style="-fx-font-size: 22; -fx-font-weight: 800; -fx-text-fill: #27ae60; -fx-font-family: 'Courier New';" />
+                    <Label fx:id="lblTotal" text="0 FCFA" style="-fx-font-size: 22; -fx-font-weight: 800; -fx-text-fill: #27ae60; -fx-font-family: 'Courier New';" />
                 </HBox>
             </VBox>
             

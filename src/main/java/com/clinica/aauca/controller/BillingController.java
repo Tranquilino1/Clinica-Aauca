@@ -1,9 +1,6 @@
 package com.clinica.aauca.controller;
 
-import com.clinica.aauca.dao.ProductDAO;
-import com.clinica.aauca.dao.ProductDAOImpl;
-import com.clinica.aauca.dao.PatientDAO;
-import com.clinica.aauca.dao.PatientDAOImpl;
+import com.clinica.aauca.dao.*;
 import com.clinica.aauca.model.Product;
 import com.clinica.aauca.model.Patient;
 import javafx.collections.FXCollections;
@@ -30,10 +27,13 @@ public class BillingController implements Initializable {
 
     private final ProductDAO productDAO = new ProductDAOImpl();
     private final PatientDAO patientDAO = new PatientDAOImpl();
+    private final BillingDAO billingDAO = new BillingDAO();
+    
     private final ObservableList<Product> productList = FXCollections.observableArrayList();
     private final ObservableList<Patient> patientList = FXCollections.observableArrayList();
     
     private double currentSubtotal = 0.0;
+    private static final double TAX_RATE = 0.15; // 15% VAT en Guinea Ecuatorial
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
@@ -41,6 +41,7 @@ public class BillingController implements Initializable {
         loadInventory();
         loadPatients();
         setupSearch();
+        updateTotal(0);
     }
 
     private void setupTable() {
@@ -69,6 +70,7 @@ public class BillingController implements Initializable {
                 }
             }
         });
+        
         cmbPatient.setButtonCell(new ListCell<>() {
             @Override
             protected void updateItem(Patient item, boolean empty) {
@@ -95,7 +97,7 @@ public class BillingController implements Initializable {
             ObservableList<Product> filtered = FXCollections.observableArrayList();
             for (Product p : productList) {
                 if (p.getName().toLowerCase().contains(query.toLowerCase()) || 
-                    p.getCategory().toLowerCase().contains(query.toLowerCase())) {
+                    (p.getCategory() != null && p.getCategory().toLowerCase().contains(query.toLowerCase()))) {
                     filtered.add(p);
                 }
             }
@@ -107,19 +109,19 @@ public class BillingController implements Initializable {
     private void addToInvoice(ActionEvent event) {
         Product p = tblInventory.getSelectionModel().getSelectedItem();
         if (p != null) {
-            listInvoiceDetails.getItems().add(p.getName() + " - $" + String.format("%.2f", p.getPrice()));
+            listInvoiceDetails.getItems().add(p.getName() + " - " + String.format("%.0f", p.getPrice()) + " FCFA");
             updateTotal(p.getPrice());
         }
     }
 
-    private void updateTotal(double price) {
-        currentSubtotal += price;
-        double tax = currentSubtotal * 0.12;
+    private void updateTotal(double delta) {
+        currentSubtotal += delta;
+        double tax = currentSubtotal * TAX_RATE;
         double total = currentSubtotal + tax;
 
-        lblSubtotal.setText(String.format("$%.2f", currentSubtotal));
-        lblTax.setText(String.format("$%.2f", tax));
-        lblTotal.setText(String.format("$%.2f", total));
+        lblSubtotal.setText(String.format("%.0f FCFA", currentSubtotal));
+        lblTax.setText(String.format("%.0f FCFA (15%%)", tax));
+        lblTotal.setText(String.format("%.0f FCFA", total));
     }
 
     @FXML
@@ -132,7 +134,8 @@ public class BillingController implements Initializable {
 
     @FXML
     private void emitInvoice(ActionEvent event) {
-        if (cmbPatient.getSelectionModel().isEmpty()) {
+        Patient selected = cmbPatient.getSelectionModel().getSelectedItem();
+        if (selected == null) {
             showAlert("Aviso", "Primero seleccione un paciente para la factura.");
             return;
         }
@@ -141,8 +144,56 @@ public class BillingController implements Initializable {
             return;
         }
         
-        showAlert("Éxito", "Factura emitida correctamente para " + cmbPatient.getValue().getFullName());
-        clearInvoice(event);
+        double tax = currentSubtotal * TAX_RATE;
+        double total = currentSubtotal + tax;
+        
+        if (billingDAO.saveInvoice(selected.getId(), currentSubtotal, tax, total)) {
+            generateInvoicePDF(selected, currentSubtotal, tax, total);
+            showAlert("Éxito", "Factura emitida y registrada por " + String.format("%.0f", total) + " FCFA para " + selected.getFullName());
+            clearInvoice(event);
+        } else {
+            showAlert("Error", "No se pudo registrar la factura en la base de datos.");
+        }
+    }
+
+    private void generateInvoicePDF(Patient p, double subtotal, double tax, double total) {
+        java.io.File file = new java.io.File("FACTURA_" + System.currentTimeMillis() + ".pdf");
+        try (java.io.FileOutputStream fos = new java.io.FileOutputStream(file)) {
+            com.lowagie.text.Document document = new com.lowagie.text.Document();
+            com.lowagie.text.pdf.PdfWriter.getInstance(document, fos);
+            document.open();
+
+            // Membrete
+            com.lowagie.text.Font titleFont = com.lowagie.text.FontFactory.getFont(com.lowagie.text.FontFactory.HELVETICA_BOLD, 20);
+            com.lowagie.text.Paragraph title = new com.lowagie.text.Paragraph("CLINICA AAUCA - FACTURA", titleFont);
+            title.setAlignment(com.lowagie.text.Element.ALIGN_CENTER);
+            document.add(title);
+            document.add(new com.lowagie.text.Paragraph("Djibloho / Oyala - Guinea Ecuatorial\n\n"));
+
+            // Datos Paciente
+            document.add(new com.lowagie.text.Paragraph("PACIENTE: " + p.getFullName()));
+            document.add(new com.lowagie.text.Paragraph("DIP: " + p.getDni()));
+            document.add(new com.lowagie.text.Paragraph("FECHA: " + new java.util.Date().toString()));
+            document.add(new com.lowagie.text.Paragraph("\n------------------------------------------------------------\n"));
+
+            // Detalles
+            document.add(new com.lowagie.text.Paragraph("DETALLES:"));
+            for (String detail : listInvoiceDetails.getItems()) {
+                document.add(new com.lowagie.text.Paragraph(" - " + detail));
+            }
+
+            document.add(new com.lowagie.text.Paragraph("\n------------------------------------------------------------\n"));
+            document.add(new com.lowagie.text.Paragraph("SUBTOTAL: " + String.format("%.0f", subtotal) + " FCFA"));
+            document.add(new com.lowagie.text.Paragraph("IVA (15%): " + String.format("%.0f", tax) + " FCFA"));
+            document.add(new com.lowagie.text.Paragraph("TOTAL FINAL: " + String.format("%.0f", total) + " FCFA", com.lowagie.text.FontFactory.getFont(com.lowagie.text.FontFactory.HELVETICA_BOLD, 14)));
+
+            document.close();
+            if (java.awt.Desktop.isDesktopSupported()) {
+                java.awt.Desktop.getDesktop().open(file);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     private void showAlert(String title, String content) {

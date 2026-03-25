@@ -4,7 +4,9 @@ module com.clinica.aauca {
     requires java.sql;
     requires org.xerial.sqlitejdbc;
     requires de.jensd.fx.glyphs.fontawesome; // Dependencia de FontAwesomeFX
-    requires jbcrypt; // Dependencia de BCrypt
+    requires java.desktop; 
+    requires com.github.librepdf.openpdf;
+    requires jbcrypt;
 
     opens com.clinica.aauca to javafx.fxml;
     opens com.clinica.aauca.controller to javafx.fxml;

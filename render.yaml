@@ -1,0 +1,14 @@
+# Render Deployment Blueprint for Clínica Aauca Web Portal
+services:
+  - type: static
+    name: clinica-aauca-portal
+    env: static
+    buildCommand: null
+    publishPath: .
+    routes:
+      - type: rewrite
+        source: /
+        destination: /index.html
+      - type: rewrite
+        source: /reporte
+        destination: /INFORME_SISTEMA_GESTION_CLINICA.md

@@ -49,6 +49,13 @@
                 <TextArea fx:id="txtTreatment" prefHeight="100.0" wrapText="true" promptText="Prescripción y recomendaciones..." />
                 
                 <HBox alignment="CENTER_RIGHT" spacing="15.0">
+                    <Button fx:id="btnPDF" styleClass="btn-secondary" text=" Exportar Ficha" onAction="#handleExportPDF" disable="true">
+                        <graphic><FontAwesomeIconView glyphName="FILE_PDF_O" size="14" fill="#C62828"/></graphic>
+                    </Button>
+                    <Button fx:id="btnReceta" styleClass="btn-secondary" text=" Generar Receta" onAction="#handleExportReceta" disable="true" style="-fx-background-color: #E8F5E9; -fx-text-fill: #2E7D32;">
+                        <graphic><FontAwesomeIconView glyphName="PENCIL_SQUARE_O" size="14" fill="#2E7D32"/></graphic>
+                    </Button>
+                    <Region HBox.hgrow="ALWAYS" />
                     <Button styleClass="btn-primary" text=" Guardar Consulta" onAction="#handleSave">
                         <graphic><FontAwesomeIconView glyphName="SAVE" size="14" fill="WHITE"/></graphic>
                     </Button>

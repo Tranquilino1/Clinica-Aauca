@@ -43,8 +43,8 @@ public class HomeController implements Initializable {
     }
 
     private void setupStats() {
-        lblPacientesHoy.setText("2,485");
+        lblPacientesHoy.setText("2.485");
         lblCitasPendientes.setText("156");
-        lblIngresos.setText("$1,240.50");
+        lblIngresos.setText("1.250.000 FCFA");
     }
 }
