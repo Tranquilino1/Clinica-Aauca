@@ -1,0 +1,3 @@
+User-agent: *
+Allow: /
+Sitemap: https://clinica-aauca.vercel.app/sitemap.xml

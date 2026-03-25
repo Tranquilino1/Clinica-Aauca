@@ -3,19 +3,21 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SGC Aauca | v3.8 Platinum Ultra</title>
-    <!-- Google Fonts -->
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&display=swap" rel="stylesheet">
+    <title>SGC Aauca | v3.9 Platinum Ultra Final</title>
+    <!-- Google Fonts: Outfit & Inter -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&family=Outfit:wght@500;700;900&display=swap" rel="stylesheet">
     <!-- Font Awesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         :root {
-            --primary: #0D47A1;    /* Navy */
-            --secondary: #1976D2;  /* Cobalt */
-            --accent: #00B0FF;     /* Azure */
-            --charcoal: #263238;   /* Anthracite */
-            --light-bg: #F8F9FA;
-            --white: #FFFFFF;
+            --primary: #0D47A1;
+            --secondary: #1E88E5;
+            --accent: #00D2FF;
+            --dark: #0F172A;
+            --glass: rgba(255, 255, 255, 0.03);
+            --glass-border: rgba(255, 255, 255, 0.1);
+            --text-main: #F8FAFC;
+            --text-muted: #94A3B8;
         }
         
         * {
@@ -26,220 +28,289 @@
         }
 
         body {
-            background-color: var(--light-bg);
-            color: var(--charcoal);
+            background-color: var(--dark);
+            color: var(--text-main);
             overflow-x: hidden;
+            background-image: 
+                radial-gradient(circle at 10% 20%, rgba(0, 210, 255, 0.05) 0%, transparent 40%),
+                radial-gradient(circle at 90% 80%, rgba(13, 71, 161, 0.05) 0%, transparent 40%);
         }
 
-        /* HEADER & HERO */
+        h1, h2, h3, .logo {
+            font-family: 'Outfit', sans-serif;
+        }
+
+        /* HEADER & NAVIGATION */
         header {
-            background: linear-gradient(135deg, var(--charcoal) 0%, #101c22 100%);
-            color: var(--white);
-            padding: 2rem 5%;
-            position: relative;
+            padding: 1.5rem 5%;
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+            background: rgba(15, 23, 42, 0.8);
+            backdrop-filter: blur(12px);
+            border-bottom: 1px solid var(--glass-border);
         }
 
         nav {
             display: flex;
             justify-content: space-between;
             align-items: center;
+            max-width: 1400px;
+            margin: 0 auto;
         }
 
         .logo {
-            font-size: 1.5rem;
-            font-weight: 800;
-            letter-spacing: 2px;
+            font-size: 1.8rem;
+            font-weight: 900;
+            letter-spacing: -1px;
             display: flex;
             align-items: center;
-            gap: 10px;
+            gap: 12px;
+            background: linear-gradient(to right, #fff, var(--accent));
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
         }
 
+        .nav-links {
+            display: flex;
+            gap: 30px;
+            align-items: center;
+        }
+
+        .nav-link {
+            color: var(--text-muted);
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.3s;
+        }
+
+        .nav-link:hover { color: var(--accent); }
+
+        /* HERO SECTION */
         .hero {
+            padding: 180px 5% 100px;
             display: flex;
             align-items: center;
             justify-content: space-between;
-            min-height: 80vh;
-            gap: 50px;
+            max-width: 1400px;
+            margin: 0 auto;
+            min-height: 90vh;
+            gap: 60px;
         }
 
-        .hero-content {
-            flex: 1;
-        }
-
-        .hero-tag {
-            background: rgba(0, 176, 255, 0.1);
+        .hero-content { flex: 1.2; position: relative; }
+        
+        .hero-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            background: rgba(0, 210, 255, 0.1);
             color: var(--accent);
-            padding: 8px 15px;
-            border-radius: 20px;
-            font-size: 0.9rem;
-            font-weight: 600;
-            display: inline-block;
-            margin-bottom: 20px;
+            padding: 6px 16px;
+            border-radius: 100px;
+            font-size: 0.85rem;
+            font-weight: 700;
+            border: 1px solid rgba(0, 210, 255, 0.2);
+            margin-bottom: 24px;
+            animation: fadeInDown 0.8s ease-out;
         }
 
         .hero h1 {
-            font-size: 4rem;
-            line-height: 1.1;
-            margin-bottom: 20px;
-            font-weight: 800;
+            font-size: 4.5rem;
+            line-height: 1.05;
+            margin-bottom: 24px;
+            font-weight: 900;
+            letter-spacing: -2px;
         }
 
         .hero h1 span {
             color: var(--accent);
-            text-shadow: 0 0 20px rgba(0, 176, 255, 0.3);
+            position: relative;
+        }
+
+        .hero h1 span::after {
+            content: '';
+            position: absolute;
+            bottom: 8px; left: 0; width: 100%; height: 8px;
+            background: var(--accent);
+            opacity: 0.2;
+            z-index: -1;
         }
 
         .hero p {
-            font-size: 1.2rem;
-            color: #90A4AE;
-            margin-bottom: 40px;
+            font-size: 1.25rem;
+            color: var(--text-muted);
+            margin-bottom: 48px;
             line-height: 1.6;
-            max-width: 600px;
+            max-width: 650px;
         }
 
-        .download-btn {
-            background: linear-gradient(to right, var(--primary), var(--secondary));
-            color: var(--white);
+        .btn-group { display: flex; gap: 20px; align-items: center; }
+
+        .cta-primary {
+            background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+            color: white;
             text-decoration: none;
-            padding: 18px 40px;
-            border-radius: 30px;
+            padding: 20px 48px;
+            border-radius: 12px;
             font-size: 1.1rem;
-            font-weight: 600;
-            display: inline-flex;
+            font-weight: 700;
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            box-shadow: 0 20px 40px rgba(13, 71, 161, 0.3);
+            display: flex;
             align-items: center;
-            gap: 15px;
-            transition: all 0.3s ease;
-            box-shadow: 0 10px 30px rgba(21, 101, 192, 0.4);
+            gap: 12px;
         }
 
-        .download-btn:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 15px 40px rgba(21, 101, 192, 0.6);
+        .cta-primary:hover {
+            transform: translateY(-5px) scale(1.02);
+            box-shadow: 0 25px 50px rgba(13, 71, 161, 0.5);
         }
 
-        .hero-image {
+        .cta-secondary {
+            color: white;
+            text-decoration: none;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 10px;
+            transition: opacity 0.3s;
+        }
+        .cta-secondary:hover { opacity: 0.8; }
+
+        /* HERO IMAGE & MOCKUP */
+        .hero-visual {
             flex: 1;
             position: relative;
-            perspective: 1000px;
             display: flex;
             justify-content: center;
+            perspective: 2000px;
         }
 
-        .dashboard-mockup {
+        .mockup-container {
             width: 100%;
-            max-width: 650px;
-            background: var(--white);
-            border-radius: 12px;
-            box-shadow: 0 25px 60px rgba(0,0,0,0.5);
-            transform: rotateY(-10deg) rotateX(5deg);
-            transition: transform 0.5s ease;
-            padding: 10px;
-            border: 1px solid rgba(255,255,255,0.1);
-        }
-        
-        .hero-image:hover .dashboard-mockup {
-            transform: rotateY(0) rotateX(0);
+            background: var(--glass);
+            border: 1px solid var(--glass-border);
+            backdrop-filter: blur(20px);
+            border-radius: 24px;
+            padding: 12px;
+            transform: rotateY(-15deg) rotateX(10deg);
+            box-shadow: 0 50px 100px rgba(0,0,0,0.5);
+            transition: all 0.6s ease;
         }
 
-        /* FEATURES APP */
-        .features {
-            padding: 100px 5%;
-            text-align: center;
+        .hero-visual:hover .mockup-container {
+            transform: rotateY(0) rotateX(0) scale(1.05);
         }
 
-        .features h2 {
-            font-size: 2.5rem;
-            margin-bottom: 60px;
-            color: var(--charcoal);
+        .mockup-screen {
+            background: #fff;
+            border-radius: 16px;
+            overflow: hidden;
+            height: 400px;
+            color: #334155;
+            display: flex;
+            flex-direction: column;
         }
 
-        .grid {
+        .mock-header { height: 48px; border-bottom: 1px solid #f1f5f9; display: flex; align-items: center; padding: 0 16px; gap: 6px; }
+        .mock-dot { width: 10px; height: 10px; border-radius: 50%; background: #ff5f57; }
+        .mock-dot:nth-child(2) { background: #febc2e; }
+        .mock-dot:nth-child(3) { background: #28c840; }
+        .mock-title { margin-left: auto; font-size: 0.75rem; font-weight: 600; color: #94a3b8; }
+
+        .mock-content { padding: 24px; display: grid; grid-template-columns: 1fr 2fr; gap: 20px; height: 100%; }
+        .mock-sidebar { background: #f8fafc; border-radius: 12px; padding: 12px; }
+        .mock-line { height: 8px; background: #e2e8f0; border-radius: 4px; margin-bottom: 12px; width: 80%; }
+        .mock-card { background: white; border-radius: 12px; border: 1px solid #f1f5f9; padding: 16px; box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1); }
+
+        /* FEATURES SECTION */
+        .features { padding: 120px 5%; max-width: 1400px; margin: 0 auto; text-align: center; }
+        .features h2 { font-size: 3rem; margin-bottom: 16px; font-weight: 800; }
+        .features-subtitle { color: var(--text-muted); font-size: 1.2rem; margin-bottom: 80px; }
+
+        .feature-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 40px;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 32px;
         }
 
-        .card {
-            background: var(--white);
-            padding: 40px;
-            border-radius: 20px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.05);
-            transition: 0.3s;
+        .feature-card {
+            background: var(--glass);
+            border: 1px solid var(--glass-border);
+            padding: 48px;
+            border-radius: 32px;
             text-align: left;
+            transition: all 0.3s;
             position: relative;
             overflow: hidden;
         }
 
-        .card::before {
-            content: '';
-            position: absolute;
-            top: 0; left: 0; width: 100%; height: 4px;
-            background: linear-gradient(to right, var(--primary), var(--accent));
+        .feature-card:hover {
+            background: rgba(255, 255, 255, 0.05);
+            border-color: var(--accent);
+            transform: translateY(-8px);
         }
 
-        .card:hover {
-            transform: translateY(-10px);
-            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
-        }
-
-        .card i {
-            font-size: 2.5rem;
-            color: var(--primary);
-            margin-bottom: 20px;
-        }
-
-        .card h3 {
+        .feature-icon {
+            width: 64px;
+            height: 64px;
+            background: linear-gradient(135deg, var(--primary), var(--accent));
+            border-radius: 16px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
             font-size: 1.5rem;
-            margin-bottom: 15px;
-        }
-
-        .card p {
-            color: #546E7A;
-            line-height: 1.6;
-        }
-
-        /* GITHUB & DEV SECTION */
-        .open-source {
-            background: var(--primary);
+            margin-bottom: 32px;
             color: white;
+            box-shadow: 0 10px 20px rgba(0, 210, 255, 0.2);
+        }
+
+        .feature-card h3 { font-size: 1.5rem; margin-bottom: 16px; font-weight: 700; color: white; }
+        .feature-card p { color: var(--text-muted); line-height: 1.6; }
+
+        /* DOWNLOAD SECTION */
+        .download-teaser {
+            margin: 100px 5%;
+            background: linear-gradient(135deg, #1e293b 0%, #0f172a 100%);
+            border: 1px solid var(--glass-border);
+            border-radius: 40px;
             padding: 80px 5%;
             text-align: center;
-        }
-        
-        .open-source h2 { margin-bottom: 20px; font-size: 2rem; }
-        .open-source p { max-width: 600px; margin: 0 auto 30px; color: rgba(255,255,255,0.8); }
-        
-        .github-btn {
-            background: var(--charcoal);
-            color: white;
-            text-decoration: none;
-            padding: 15px 30px;
-            border-radius: 8px;
-            font-weight: 600;
-            display: inline-flex;
-            align-items: center;
-            gap: 10px;
+            position: relative;
+            overflow: hidden;
         }
 
+        .download-teaser h2 { font-size: 2.5rem; margin-bottom: 24px; }
+        .download-teaser p { font-size: 1.1rem; color: var(--text-muted); margin-bottom: 40px; max-width: 700px; margin-inline: auto; }
+
+        /* FOOTER */
         footer {
-            background: var(--charcoal);
-            color: #90A4AE;
+            padding: 60px 5%;
             text-align: center;
-            padding: 30px;
-            font-size: 0.9rem;
+            border-top: 1px solid var(--glass-border);
+            color: var(--text-muted);
+            font-size: 0.95rem;
         }
 
-        /* MOCKUP SHAPES */
-        .mock-header { height: 40px; border-bottom: 1px solid #ECEFF1; display:flex; align-items: center; padding: 0 15px; gap:8px;}
-        .mock-dot { width: 10px; height: 10px; border-radius: 50%; background: #FF5F56; }
-        .mock-dot:nth-child(2) { background: #FFBD2E; }
-        .mock-dot:nth-child(3) { background: #27C93F; }
-        .mock-body { height: 350px; background: linear-gradient(br, #F8F9FA, #ECEFF1); display: flex; }
-        .mock-side { width: 25%; background: var(--charcoal); height: 100%; border-radius: 0 0 0 10px;}
-        .mock-content { padding: 20px; flex: 1; }
-        .mock-card { background: white; height: 100px; border-radius: 10px; margin-bottom: 15px; box-shadow: 0 5px 15px rgba(0,0,0,0.05);}
-        .mock-text { width: 60%; height: 10px; background: #ECEFF1; border-radius: 5px; margin: 15px; }
+        footer strong { color: white; }
 
+        /* ANIMATIONS */
+        @keyframes fadeInDown {
+            from { opacity: 0; transform: translateY(-20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @media (max-width: 968px) {
+            .hero { flex-direction: column; text-align: center; padding-top: 120px; }
+            .hero h1 { font-size: 3rem; }
+            .hero p { margin-inline: auto; }
+            .btn-group { justify-content: center; }
+            .mockup-container { transform: none !important; }
+        }
     </style>
 </head>
 <body>
@@ -247,96 +318,108 @@
     <header>
         <nav>
             <div class="logo">
-                <i class="fa-solid fa-stethoscope" style="color: var(--accent);"></i> AAUCA
+                <i class="fa-solid fa-staff-snake"></i> AAUCA PLATINUM
             </div>
-            <div>
-                <a href="#features" style="color:white; text-decoration:none; margin-right: 20px;">Características</a>
-                <a href="https://github.com/Tranquilino1/Clinica-Aauca" class="github-btn" style="padding: 8px 20px;"><i class="fa-brands fa-github"></i> Código Fuente</a>
+            <div class="nav-links">
+                <a href="#features" class="nav-link">Módulos</a>
+                <a href="INFORME_SISTEMA.html" class="nav-link">Reporte Online</a>
+                <a href="https://github.com/Tranquilino1/Clinica-Aauca" class="nav-link"><i class="fa-brands fa-github"></i> Código</a>
             </div>
         </nav>
+    </header>
 
-        <div class="hero">
+    <main>
+        <section class="hero">
             <div class="hero-content">
-                <div class="hero-tag">v3.8 Platinum Ultra Release</div>
-                <h1>Software de Gestión Clínica <span>Definitivo.</span></h1>
-                <p>Aplicación de ESCRITORIO (.exe) impulsada por JavaFX y SQLite. Gestiona pacientes (DIP), historiales médicos, agenda de citas y facturación localmente con seguridad de grado bancario.</p>
-                <a href="https://github.com/Tranquilino1/Clinica-Aauca/raw/main/Clinica_Aauca_PLATINUM_ULTRA_FINAL.zip" class="download-btn">
-                    <i class="fa-brands fa-windows"></i>
-                    Descargar Instalador (.exe)
-                </a>
-                <p style="font-size: 0.8rem; margin-top: 15px; display:flex; align-items:center; gap: 10px;">
-                    <i class="fa-solid fa-shield-halved"></i> 100% Offline | Base de Datos SQLite Encriptada
-                </p>
+                <div class="hero-badge">
+                    <i class="fa-solid fa-circle-check"></i> v3.9 Platinum Ultra · Nueva Versión
+                </div>
+                <h1>Software de Gestión Clínica <span>Premium.</span></h1>
+                <p>La solución definitiva de escritorio impulsada por JavaFX 17. Gestión integral de pacientes, historiales médicos y facturación local con seguridad industrial.</p>
+                <div class="btn-group">
+                    <a href="https://github.com/Tranquilino1/Clinica-Aauca/raw/main/Clinica_Aauca_PLATINUM_ULTRA_FINAL.zip" class="cta-primary">
+                        <i class="fa-brands fa-windows"></i>
+                        Descargar v3.9 (.exe)
+                    </a>
+                    <a href="#features" class="cta-secondary">
+                        Explorar funciones <i class="fa-solid fa-arrow-down-long"></i>
+                    </a>
+                </div>
+                <div style="margin-top: 32px; display: flex; gap: 24px; color: var(--text-muted); font-size: 0.9rem;">
+                    <span><i class="fa-solid fa-database" style="color: var(--accent); margin-right: 8px;"></i> SQLite Encriptada</span>
+                    <span><i class="fa-solid fa-vault" style="color: var(--accent); margin-right: 8px;"></i> BCrypt Security</span>
+                </div>
             </div>
-            <div class="hero-image">
-                <div class="dashboard-mockup">
-                    <div class="mock-header">
-                        <div class="mock-dot"></div>
-                        <div class="mock-dot"></div>
-                        <div class="mock-dot"></div>
-                        <span style="margin-left:auto; color:#90A4AE; font-size:12px; font-weight:600;">SGC Aauca - Modo Médico</span>
-                    </div>
-                    <div class="mock-body">
-                        <div class="mock-side">
-                            <div style="height:20px; background:rgba(255,255,255,0.1); margin: 20px; border-radius:4px;"></div>
-                            <div style="height:20px; background:rgba(255,255,255,0.1); margin: 20px; border-radius:4px; width:60%;"></div>
-                            <div style="height:20px; background:rgba(255,255,255,0.1); margin: 20px; border-radius:4px; width:70%;"></div>
+            <div class="hero-visual">
+                <div class="mockup-container">
+                    <div class="mockup-screen">
+                        <div class="mock-header">
+                            <div class="mock-dot"></div>
+                            <div class="mock-dot"></div>
+                            <div class="mock-dot"></div>
+                            <div class="mock-title">Dashboard Médico Pro - SGC</div>
                         </div>
                         <div class="mock-content">
-                            <div style="display:flex; justify-content:space-between; margin-bottom:20px;">
-                                <div style="width:150px; height:20px; background:#ECEFF1; border-radius:4px;"></div>
-                                <div style="width:40px; height:40px; background:#1976D2; border-radius:50%;"></div>
+                            <div class="mock-sidebar">
+                                <div class="mock-line" style="width: 100%; height: 20px; background: #e2e8f0; margin-bottom: 24px;"></div>
+                                <div class="mock-line"></div>
+                                <div class="mock-line"></div>
+                                <div class="mock-line"></div>
+                                <div class="mock-line" style="width: 40%;"></div>
                             </div>
-                            <div style="display:flex; gap:15px;">
-                                <div style="flex:1" class="mock-card">
-                                    <div class="mock-text"></div>
-                                    <div class="mock-text" style="width:30%;"></div>
+                            <div class="mock-main">
+                                <div style="display: flex; justify-content: space-between; margin-bottom: 24px;">
+                                    <div style="width: 120px; height: 16px; background: #cbd5e1; border-radius: 4px;"></div>
+                                    <div style="width: 32px; height: 32px; background: var(--primary); border-radius: 50%;"></div>
                                 </div>
-                                <div style="flex:1" class="mock-card">
-                                    <div class="mock-text"></div>
-                                    <div class="mock-text" style="width:40%;"></div>
+                                <div class="mock-card">
+                                    <div class="mock-line" style="width: 30%;"></div>
+                                    <div style="height: 60px; background: linear-gradient(to right, #f1f5f9, #fff); border-bottom: 2px solid var(--accent); margin-top: 12px;"></div>
                                 </div>
-                            </div>
-                            <div class="mock-card" style="height: 120px;">
-                                <div class="mock-text" style="width:20%;"></div>
-                                <div style="margin: 0 15px; height:50px; background:linear-gradient(to top, #E3F2FD, white); border-bottom: 2px solid var(--primary);"></div>
+                                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-top: 12px;">
+                                    <div class="mock-card" style="height: 80px;"></div>
+                                    <div class="mock-card" style="height: 80px;"></div>
+                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
-        </div>
-    </header>
+        </section>
 
-    <section id="features" class="features">
-        <h2>Ingeniería de Grado Industrial</h2>
-        <div class="grid">
-            <div class="card">
-                <i class="fa-solid fa-users-viewfinder"></i>
-                <h3>Gestión DIP Dinámica</h3>
-                <p>Catálogo de pacientes con formularios de edición en tiempo real (CRUD). Integra validación de identificadores DIP y prevención de duplicados.</p>
+        <section id="features" class="features">
+            <h2>Ingeniería Médica de Vanguardia</h2>
+            <p class="features-subtitle">Módulos robustos diseñados para la máxima eficiencia operativa en entornos clínicos.</p>
+            <div class="feature-grid">
+                <div class="feature-card">
+                    <div class="feature-icon"><i class="fa-solid fa-id-card-clip"></i></div>
+                    <h3>Gestión DIP Activa</h3>
+                    <p>Control total sobre el padrón de pacientes con validación en tiempo real y persistencia atómica en SQLite. CRUD optimizado para alta velocidad.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon"><i class="fa-solid fa-stethoscope"></i></div>
+                    <h3>Expediente Clínico</h3>
+                    <p>Digitalización completa de diagnósticos y recetas. Historial cronológico inalterable vinculado directamente a la identidad del paciente.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon"><i class="fa-solid fa-chart-line"></i></div>
+                    <h3>Analítica Predictiva</h3>
+                    <p>Visualización de métricas de rendimiento mediante gráficos nativos de JavaFX. Control exhaustivo de afluencia y rentabilidad.</p>
+                </div>
             </div>
-            <div class="card">
-                <i class="fa-solid fa-chart-pie"></i>
-                <h3>Analítica Platinum</h3>
-                <p>Dashboard interactivo con gráficos integrados en el código nativo (JavaFX Charts). Monitorea el flujo de pacientes, facturación y agenda de un solo vistazo.</p>
-            </div>
-            <div class="card">
-                <i class="fa-solid fa-server"></i>
-                <h3>Persistencia SQLite</h3>
-                <p>El sistema encapsula su propio motor de base de datos sin requerir configuraciones de puertos. Almacenamiento portátil, rápido e invulnerable a caídas de red.</p>
-            </div>
-        </div>
-    </section>
+        </section>
 
-    <section class="open-source">
-        <h2>Arquitectura Open Source</h2>
-        <p>El código fuente de Clínica Aauca v3.8 está diseñado con el patrón MVC (Model-View-Controller) en Java 17 y JavaFX. Totalmente auditable para estudiantes de ingeniería e instituciones de salud.</p>
-        <a href="https://github.com/Tranquilino1/Clinica-Aauca" class="github-btn"><i class="fa-brands fa-github"></i> Explorar Repositorio en GitHub</a>
-    </section>
+        <section class="download-teaser">
+            <h2>Listo para la Producción</h2>
+            <p>Clínica Aauca v3.9 Platinum Ultra es el resultado de una arquitectura modular sólida, preparada para ser desplegada en cualquier entorno Windows sin dependencias externas.</p>
+            <a href="https://github.com/Tranquilino1/Clinica-Aauca/raw/main/Clinica_Aauca_PLATINUM_ULTRA_FINAL.zip" class="cta-primary" style="display: inline-flex; margin-inline: auto;">
+                <i class="fa-brands fa-windows"></i> Obtener Instalador Portable
+            </a>
+        </section>
+    </main>
 
     <footer>
-        <p>&copy; 2026 Clínica Aauca. Desarrollado y Alojado bajo infraestructura InfinityFree. Este es un portal de presentación oficial.</p>
+        <p>&copy; 2026 Clínica Aauca. Alojado con alto rendimiento en <strong>Vercel</strong>. Desarrollado bajo estándares de la división Antigravity AI.</p>
     </footer>
 
 </body>
