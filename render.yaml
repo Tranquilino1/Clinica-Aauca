@@ -10,8 +10,9 @@ services:
     envVars:
       - key: JAVA_VERSION
         value: 17
-    # Use disk for SQLite if plan supports it (Free plan might reset disk)
-    disk:
-      name: clinica-data
-      mountPath: /data
-      sizeGB: 1
+    # Note: Free plan does not support persistent disks. 
+    # SQLite data will reset on every deploy/restart.
+    # disk:
+    #   name: clinica-data
+    #   mountPath: /data
+    #   sizeGB: 1
