@@ -13,7 +13,16 @@ import java.nio.charset.StandardCharsets;
  * Gestor de conexión a la base de datos SQLite.
  */
 public class DatabaseConnector {
-    private static final String URL = "jdbc:sqlite:clinica_aauca.db";
+    private static final String URL;
+    static {
+        // Detect if we are on Render with a /data mount for persistence
+        java.io.File renderDataDir = new java.io.File("/data");
+        if (renderDataDir.exists() && renderDataDir.isDirectory()) {
+            URL = "jdbc:sqlite:/data/clinica_aauca.db";
+        } else {
+            URL = "jdbc:sqlite:clinica_aauca.db";
+        }
+    }
     private static Connection connection = null;
 
     private DatabaseConnector() {

@@ -1,0 +1,309 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AAUCA WEB | Platinum Ultra v3.9</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&family=Outfit:wght@500;700;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary: #0D47A1;
+            --secondary: #1E88E5;
+            --accent: #00D2FF;
+            --dark: #070B14;
+            --card-bg: rgba(255, 255, 255, 0.03);
+            --card-border: rgba(255, 255, 255, 0.1);
+            --text-main: #F8FAFC;
+            --text-muted: #94A3B8;
+            --success: #10B981;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Inter', sans-serif; }
+        body { background-color: var(--dark); color: var(--text-main); overflow-x: hidden; min-height: 100vh; }
+        h1, h2, h3, .logo { font-family: 'Outfit', sans-serif; }
+
+        /* Background Effects */
+        .bg-glow {
+            position: fixed;
+            width: 100vw; height: 100vh;
+            background: radial-gradient(circle at 10% 20%, rgba(13, 71, 161, 0.1) 0%, transparent 40%),
+                        radial-gradient(circle at 90% 80%, rgba(0, 210, 255, 0.1) 0%, transparent 40%);
+            z-index: -1;
+        }
+
+        /* Login Screen */
+        #login-view {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            padding: 20px;
+        }
+
+        .glass-card {
+            background: var(--card-bg);
+            backdrop-filter: blur(20px);
+            border: 1px solid var(--card-border);
+            border-radius: 24px;
+            padding: 40px;
+            width: 100%;
+            max-width: 450px;
+            box-shadow: 0 40px 80px rgba(0,0,0,0.4);
+            animation: slideIn 0.8s ease-out;
+        }
+
+        @keyframes slideIn {
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .input-group { margin-bottom: 24px; }
+        .input-group label { display: block; color: var(--text-muted); margin-bottom: 8px; font-size: 0.9rem; font-weight: 600; }
+        .input-group input { 
+            width: 100%; background: rgba(255,255,255,0.05); border: 1px solid var(--card-border); 
+            padding: 14px 18px; border-radius: 12px; color: white; font-size: 1rem; transition: 0.3s;
+        }
+        .input-group input:focus { border-color: var(--accent); outline: none; box-shadow: 0 0 15px rgba(0, 210, 255, 0.2); }
+
+        .btn-primary {
+            width: 100%; background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: white; border: none; padding: 16px; border-radius: 12px; font-size: 1.1rem; font-weight: 700;
+            cursor: pointer; transition: 0.3s; margin-top: 10px;
+            box-shadow: 0 10px 20px rgba(13, 71, 161, 0.3);
+        }
+        .btn-primary:hover { transform: translateY(-3px); box-shadow: 0 15px 30px rgba(13, 71, 161, 0.5); }
+
+        /* Dashboard Screen */
+        #dashboard-view { display: none; padding-top: 80px; }
+
+        header {
+            position: fixed; top: 0; width: 100%; z-index: 1000;
+            background: rgba(7, 11, 20, 0.8); backdrop-filter: blur(12px);
+            border-bottom: 1px solid var(--card-border); padding: 1rem 5%;
+            display: flex; justify-content: space-between; align-items: center;
+        }
+
+        .logo { font-size: 1.5rem; font-weight: 900; background: linear-gradient(to right, #fff, var(--accent)); -webkit-background-clip: text; background-clip: text; color: transparent; }
+
+        .dashboard-container { max-width: 1400px; margin: 2rem auto; padding: 0 5%; }
+
+        .stats-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 24px; margin-bottom: 40px; }
+        .stat-card { background: var(--card-bg); border: 1px solid var(--card-border); padding: 32px; border-radius: 20px; text-align: left; }
+        .stat-card i { font-size: 2rem; color: var(--accent); margin-bottom: 16px; }
+        .stat-card h4 { color: var(--text-muted); font-size: 0.9rem; text-transform: uppercase; letter-spacing: 1px; }
+        .stat-card .value { font-size: 2.2rem; font-weight: 800; margin-top: 8px; }
+
+        .main-grid { display: grid; grid-template-columns: 2fr 1fr; gap: 32px; }
+
+        /* Tables & Lists */
+        .panel { background: var(--card-bg); border: 1px solid var(--card-border); border-radius: 24px; padding: 32px; min-height: 400px; }
+        .panel h3 { margin-bottom: 24px; font-size: 1.5rem; }
+
+        table { width: 100%; border-collapse: collapse; }
+        th { text-align: left; color: var(--text-muted); font-size: 0.85rem; padding-bottom: 16px; }
+        td { padding: 16px 0; border-top: 1px solid var(--card-border); font-size: 0.95rem; }
+        .status-badge { padding: 4px 10px; border-radius: 6px; font-size: 0.75rem; font-weight: 700; background: rgba(16, 185, 129, 0.1); color: var(--success); }
+
+        .user-menu { display: flex; align-items: center; gap: 12px; cursor: pointer; }
+        .avatar { width: 40px; height: 40px; background: var(--primary); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 800; }
+
+        /* Loading Overlay */
+        #loader { 
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: var(--dark); 
+            z-index: 2000; display: flex; flex-direction: column; align-items: center; justify-content: center;
+        }
+        .spinner { width: 50px; height: 50px; border: 4px solid var(--card-border); border-top-color: var(--accent); border-radius: 50%; animation: spin 1s linear infinite; }
+        @keyframes spin { to { transform: rotate(360deg); } }
+
+        @media (max-width: 1024px) { .main-grid { grid-template-columns: 1fr; } }
+    </style>
+</head>
+<body>
+
+    <div id="loader">
+        <div class="spinner"></div>
+        <p style="margin-top: 20px; color: var(--text-muted);">Sincronizando Sistema Platinum...</p>
+    </div>
+
+    <div class="bg-glow"></div>
+
+    <!-- LOGIN SECTION -->
+    <section id="login-view">
+        <div class="glass-card">
+            <div style="text-align: center; margin-bottom: 32px;">
+                <div style="font-size: 3rem; color: var(--accent); margin-bottom: 16px;"><i class="fa-solid fa-hospital-user"></i></div>
+                <h2 style="font-size: 1.8rem;">Clínica Aauca</h2>
+                <p style="color: var(--text-muted);">Web Portal · Versión 3.9 Ultra</p>
+            </div>
+            <form id="login-form">
+                <div class="input-group">
+                    <label>Usuario</label>
+                    <input type="text" id="username" placeholder="admin" required>
+                </div>
+                <div class="input-group">
+                    <label>Contraseña</label>
+                    <input type="password" id="password" placeholder="••••••••" required>
+                </div>
+                <button type="submit" class="btn-primary">Ingresar al Sistema</button>
+            </form>
+            <p id="login-error" style="color: #ff5f57; text-align: center; margin-top: 16px; display: none;"></p>
+        </div>
+    </section>
+
+    <!-- DASHBOARD SECTION -->
+    <section id="dashboard-view">
+        <header>
+            <div class="logo"><i class="fa-solid fa-staff-snake"></i> AAUCA PLATINUM</div>
+            <div class="user-menu" onclick="logout()">
+                <span id="user-display">Administrador</span>
+                <div class="avatar">A</div>
+            </div>
+        </header>
+
+        <div class="dashboard-container">
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <i class="fa-solid fa-users"></i>
+                    <h4>Pacientes Activos</h4>
+                    <div class="value" id="stat-patients">--</div>
+                </div>
+                <div class="stat-card">
+                    <i class="fa-solid fa-calendar-check"></i>
+                    <h4>Citas de Hoy</h4>
+                    <div class="value" id="stat-appointments">--</div>
+                </div>
+                <div class="stat-card">
+                    <i class="fa-solid fa-sack-dollar"></i>
+                    <h4>Ingresos Mensuales</h4>
+                    <div class="value" id="stat-revenue">--</div>
+                </div>
+            </div>
+
+            <div class="main-grid">
+                <div class="panel">
+                    <h3>Citas Recientes</h3>
+                    <table id="appointments-table">
+                        <thead>
+                            <tr>
+                                <th>PACIENTE</th>
+                                <th>MÉDICO</th>
+                                <th>HORA</th>
+                                <th>ESTADO</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <!-- Dynamic Content -->
+                        </tbody>
+                    </table>
+                </div>
+                <div class="panel" style="min-height: auto;">
+                    <h3>Acciones Rápidas</h3>
+                    <div style="display: grid; gap: 16px;">
+                        <button class="btn-primary" style="background: var(--card-bg); border: 1px solid var(--card-border); display: flex; align-items: center; justify-content: center; gap: 10px;">
+                            <i class="fa-solid fa-user-plus" style="color: var(--accent);"></i> Nuevo Paciente
+                        </button>
+                        <button class="btn-primary" style="background: var(--card-bg); border: 1px solid var(--card-border); display: flex; align-items: center; justify-content: center; gap: 10px;">
+                            <i class="fa-solid fa-clipboard-list" style="color: var(--accent);"></i> Agendar Cita
+                        </button>
+                        <button class="btn-primary" style="background: var(--card-bg); border: 1px solid var(--card-border); display: flex; align-items: center; justify-content: center; gap: 10px;">
+                            <i class="fa-solid fa-file-invoice-dollar" style="color: var(--accent);"></i> Generar Factura
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <script>
+        const API_BASE = '/api';
+
+        document.addEventListener('DOMContentLoaded', () => {
+            setTimeout(() => {
+                document.getElementById('loader').style.display = 'none';
+            }, 1000);
+            
+            checkSession();
+        });
+
+        document.getElementById('login-form').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const username = document.getElementById('username').value;
+            const password = document.getElementById('password').value;
+            const errorEl = document.getElementById('login-error');
+
+            try {
+                const res = await fetch(`${API_BASE}/login`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ username, password })
+                });
+
+                if (res.ok) {
+                    const user = await res.json();
+                    localStorage.setItem('user', JSON.stringify(user));
+                    showDashboard(user);
+                } else {
+                    errorEl.textContent = 'Credenciales inválidas. Intente de nuevo.';
+                    errorEl.style.display = 'block';
+                }
+            } catch (err) {
+                errorEl.textContent = 'Error de conexión con el servidor.';
+                errorEl.style.display = 'block';
+            }
+        });
+
+        function checkSession() {
+            const user = JSON.parse(localStorage.getItem('user'));
+            if (user) showDashboard(user);
+        }
+
+        function showDashboard(user) {
+            document.getElementById('login-view').style.display = 'none';
+            document.getElementById('dashboard-view').style.display = 'block';
+            document.getElementById('user-display').textContent = user.username;
+            loadStats();
+            loadAppointments();
+        }
+
+        async function loadStats() {
+            try {
+                const res = await fetch(`${API_BASE}/stats`);
+                const stats = await res.json();
+                document.getElementById('stat-patients').textContent = stats.active_patients;
+                document.getElementById('stat-appointments').textContent = stats.daily_appointments;
+                document.getElementById('stat-revenue').textContent = stats.revenue;
+            } catch (err) {
+                console.error('Stats load error');
+            }
+        }
+
+        async function loadAppointments() {
+            try {
+                const res = await fetch(`${API_BASE}/appointments`);
+                const apps = await res.json();
+                const tbody = document.querySelector('#appointments-table tbody');
+                tbody.innerHTML = '';
+                
+                apps.forEach(app => {
+                    const tr = document.createElement('tr');
+                    tr.innerHTML = `
+                        <td>${app.patientName || 'N/A'}</td>
+                        <td>${app.doctorName || 'Dr. Central'}</td>
+                        <td>${app.date || '09:00'}</td>
+                        <td><span class="status-badge">${app.status || 'PROGRAMADA'}</span></td>
+                    `;
+                    tbody.appendChild(tr);
+                });
+            } catch (err) {
+                console.error('Appointments load error');
+            }
+        }
+
+        function logout() {
+            localStorage.removeItem('user');
+            location.reload();
+        }
+    </script>
+</body>
+</html>
